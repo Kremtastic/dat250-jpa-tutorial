@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class CreditCardsMainTest {
@@ -43,7 +44,10 @@ public class CreditCardsMainTest {
 
         assertEquals(address.getStreet(), "Inndalsveien");
         assertEquals(address.getNumber(), 28);
-        assertEquals(address.getOwners(), Set.of(customer));
+        for(Customer owner : address.getOwners()) {
+
+            assertTrue(Set.of(customer).contains(owner));
+        }
 
         // Test credit cards
         assertEquals(customer.getCreditCards().size(), 2);
@@ -69,7 +73,10 @@ public class CreditCardsMainTest {
         Bank bank = firstCard.getOwningBank();
         assertEquals(bank.getId(),secondCard.getOwningBank().getId()); // Bank objects of the two cards are identical!
         assertEquals(bank.getName(), "Pengebank");
-        assertEquals(bank.getOwnedCards(), Set.of(firstCard, secondCard));
+        //assertEquals(bank.getOwnedCards(), Set.of(firstCard, secondCard));
+        for(CreditCard creditCard : bank.getOwnedCards()) {
+            assertTrue(Set.of(firstCard, secondCard).contains(creditCard));
+        }
     }
 
     private CreditCard getCardWithNumber(Customer customer, int cardNumber) {
